@@ -10,6 +10,6 @@ namespace YungCging_TestHomework_MVC.Interface
 {
     public interface I_Query_API
     {
-        DataSet_ExcuteResult Excute(string API_Method, string action_name,DataSet_User_CRUD Post_User_Data, HttpContext httpContext);
+        DataSet_ExcuteResult Excute(string API_Method, string action_name,DataSet_User_CRUD Post_User_Data, HttpRequestBase HttpRequest);
     }
 }

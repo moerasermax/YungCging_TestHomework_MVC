@@ -19,42 +19,17 @@ namespace YungCging_TestHomework_MVC.Controllers
             return new string[] { "value1", "value2" };
         }
 
-        //[HttpGet]
-        //public string Add(string Account)
-        //{
-        //    SetServerConn();
-        //    DataSet_User_CRUD User_Data = new DataSet_User_CRUD()
-        //    {
-        //        Account = "YC",
-        //        Password = "A123456",
-        //        Name = "Bboy_Yc",
-        //        Age = "26"
-        //    };
-        //    RequestAction_CreateUser requestAction_CreateUser = new RequestAction_CreateUser();
-        //    requestAction_CreateUser.UserData = User_Data;
-        //    try
-        //    {
-        //        DataSet_ExcuteResult result = Client_Controller.getInstance().Request_Action(requestAction_CreateUser);
-        //        if (result.Success) { result = Client_Controller.getInstance().Receive_ResponseRsult(); }
-
-        //        return(string.Format("伺服器訊息：{0}", result.FeedBackMessage));
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return (string.Format("伺服器訊息：{0}", ex.Message));
-        //    }
-        //}
         [HttpPost]
         public string Create([FromBody] object request)
         {
-            ///解析請求資料
+            /// 解析請求資料
             string Request_Data = request.ToString().Replace("\r\n","");
             DataSet_User_CRUD User_Data = JsonConvert.DeserializeObject<DataSet_User_CRUD>(Request_Data);
 
-            ///建立連線
+            /// 建立連線
             SetServerConn();
 
-            ///建立抽象實作
+            /// 建立抽象實作
             RequestAction_CreateUser requestAction_CreateUser = new RequestAction_CreateUser()
             {
                 UserData = User_Data
@@ -73,22 +48,21 @@ namespace YungCging_TestHomework_MVC.Controllers
                 return (string.Format("伺服器訊息：{0}", ex.Message));
             }
         }
-
-
-
-        [HttpGet]
-        public string Delete(string Account)
+        [HttpPost]
+        public string Delete([FromBody] object request)
         {
+            /// 解析請求資料
+            string Request_Data = request.ToString().Replace("\r\n", "");
+            DataSet_User_CRUD User_Data = JsonConvert.DeserializeObject<DataSet_User_CRUD>(Request_Data);
+
+            /// 建立連線
             SetServerConn();
-            DataSet_User_CRUD User_Data = new DataSet_User_CRUD()
+
+            ///建立抽象實作
+            RequestAction_DeleteUser requestAction_DeleteUser = new RequestAction_DeleteUser()
             {
-                Account = "YC",
-                Password = "A123456",
-                Name = "Bboy_Yc",
-                Age = "18"
+                UserData = User_Data
             };
-            RequestAction_DeleteUser requestAction_DeleteUser = new RequestAction_DeleteUser();
-            requestAction_DeleteUser.UserData = User_Data;
             try
             {
                 DataSet_ExcuteResult result = Client_Controller.getInstance().Request_Action(requestAction_DeleteUser);
@@ -101,19 +75,22 @@ namespace YungCging_TestHomework_MVC.Controllers
                 return (string.Format("伺服器訊息：{0}", ex.Message));
             }
         }
-        [HttpGet]
-        public string Update(string Account)
+        [HttpPost]
+        public string Update([FromBody] object request)
         {
+            /// 解析請求資料
+            string Request_Data = request.ToString().Replace("\r\n", "");
+            DataSet_User_CRUD User_Data = JsonConvert.DeserializeObject<DataSet_User_CRUD>(Request_Data);
+
+            /// 建立連線
             SetServerConn();
-            DataSet_User_CRUD User_Data = new DataSet_User_CRUD()
+
+            /// 建立抽象實作
+            RequestAction_UpdateUser requestAction_UpdateUser = new RequestAction_UpdateUser()
             {
-                Account = "YC",
-                Password = "A123456",
-                Name = "Bboy_Yc",
-                Age = "18"
+                UserData = User_Data
             };
-            RequestAction_UpdateUser requestAction_UpdateUser = new RequestAction_UpdateUser();
-            requestAction_UpdateUser.UserData = User_Data;
+
             try
             {
                 DataSet_ExcuteResult result = Client_Controller.getInstance().Request_Action(requestAction_UpdateUser);
@@ -127,15 +104,21 @@ namespace YungCging_TestHomework_MVC.Controllers
             }
         }
         [HttpGet]
-        public string Read(string Account)
+        public string Read([FromBody] object request)
         {
+            /// 解析請求資料
+            string Request_Data = request.ToString().Replace("\r\n", "");
+            DataSet_User_CRUD User_Data = JsonConvert.DeserializeObject<DataSet_User_CRUD>(Request_Data);
+
+            /// 建立連線
             SetServerConn();
-            DataSet_User_CRUD User_Data = new DataSet_User_CRUD()
+
+            ///建立抽象實作
+            RequestAction_ReadUser requestAction_ReadUser = new RequestAction_ReadUser()
             {
-                Account = "YC",
+                UserData = User_Data
             };
-            RequestAction_ReadUser requestAction_ReadUser = new RequestAction_ReadUser();
-            requestAction_ReadUser.UserData = User_Data;
+
             try
             {
                 DataSet_ExcuteResult result = Client_Controller.getInstance().Request_Action(requestAction_ReadUser);
@@ -149,25 +132,6 @@ namespace YungCging_TestHomework_MVC.Controllers
             }
         }
 
-        [HttpGet]
-        public string TestAdd(DataSet_User_CRUD User_Data)
-        {
-            SetServerConn();
-
-            RequestAction_CreateUser requestAction_CreateUser = new RequestAction_CreateUser();
-            requestAction_CreateUser.UserData = User_Data;
-            try
-            {
-                DataSet_ExcuteResult result = Client_Controller.getInstance().Request_Action(requestAction_CreateUser);
-                if (result.Success) { result = Client_Controller.getInstance().Receive_ResponseRsult(); }
-
-                return (string.Format("伺服器訊息：{0}", result.FeedBackMessage));
-            }
-            catch (Exception ex)
-            {
-                return (string.Format("伺服器訊息：{0}", ex.Message));
-            }
-        }
 
         #region SetServerConn
         public string SetServerConn()

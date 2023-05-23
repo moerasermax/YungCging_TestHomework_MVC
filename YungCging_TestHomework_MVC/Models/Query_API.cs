@@ -14,13 +14,13 @@ namespace YungCging_TestHomework_MVC.Models
     public class Query_API : I_Query_API
     {
 
-        public DataSet_ExcuteResult Excute(string API_Method, string action_name, DataSet_User_CRUD Post_User_Data, HttpContext httpContext)
+        public DataSet_ExcuteResult Excute(string API_Method, string action_name, DataSet_User_CRUD Post_User_Data, HttpRequestBase HttpRequest)
         {
             DataSet_ExcuteResult result = new DataSet_ExcuteResult();
             try
             {
-                string hostname = httpContext.Request.Url.Host;
-                string port = httpContext.Request.Url.Port.ToString();
+                string hostname = HttpRequest.Url.Host;
+                string port = HttpRequest.Url.Port.ToString();
 
                 string API_CreateUser_URL = string.Format("http://{0}:{1}/api/User/{2}", hostname, port, action_name);
 
