@@ -34,10 +34,8 @@ namespace YungCging_TestHomework_MVC.Controllers
             return View();
         }
 
-
         public ActionResult YCAction()
         {
-            ViewBag.Message = "YH";
             return View();
         }
 
@@ -51,6 +49,7 @@ namespace YungCging_TestHomework_MVC.Controllers
                 Age = "18"
             };
             DataSet_ExcuteResult result = Query_API.getInstance().Excute("POST", "Create", postData, HttpContext.Request);
+            ViewBag.Message = result.FeedBackMessage;
             return View();
         }
         public ActionResult YCAction_Delete()
@@ -60,6 +59,7 @@ namespace YungCging_TestHomework_MVC.Controllers
                 Account = "YC",
             };
             DataSet_ExcuteResult result = Query_API.getInstance().Excute("POST", "Delete", postData, HttpContext.Request);
+            ViewBag.Message = result.FeedBackMessage;
             return View();
         }
         public ActionResult YCAction_Update()
@@ -72,6 +72,7 @@ namespace YungCging_TestHomework_MVC.Controllers
                 Age = "26"
             };
             DataSet_ExcuteResult result = Query_API.getInstance().Excute("POST", "Update", postData, HttpContext.Request);
+            ViewBag.Message = result.FeedBackMessage;
             return View();
         }
         public ActionResult YCAction_Read()
@@ -80,7 +81,8 @@ namespace YungCging_TestHomework_MVC.Controllers
             {
                 Account = "YC",
             };
-            DataSet_ExcuteResult result = Query_API.getInstance().Excute("Get", "Read", postData, HttpContext.Request);
+            DataSet_ExcuteResult result = Query_API.getInstance().Excute("POST", "Read", postData, HttpContext.Request);
+            ViewBag.Message = result.FeedBackMessage;
             return View();
         }
     }

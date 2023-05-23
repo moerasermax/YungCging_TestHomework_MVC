@@ -103,7 +103,7 @@ namespace YungCging_TestHomework_MVC.Controllers
                 return (string.Format("伺服器訊息：{0}", ex.Message));
             }
         }
-        [HttpGet]
+        [HttpPost]
         public string Read([FromBody] object request)
         {
             /// 解析請求資料
