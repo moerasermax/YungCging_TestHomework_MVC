@@ -17,8 +17,9 @@ namespace YungCging_TestHomework_MVC.Controllers
         {
             return new string[] { "value1", "value2" };
         }
-        // GET api/<controller>/5
-        public string Get(string Account)
+
+        [HttpGet]
+        public string Add(string Account)
         {
             SetServerConn();
             DataSet_User_CRUD User_Data = new DataSet_User_CRUD()
@@ -26,7 +27,7 @@ namespace YungCging_TestHomework_MVC.Controllers
                 Account = "YC",
                 Password = "A123456",
                 Name = "Bboy_Yc",
-                Age = "18"
+                Age = "26"
             };
             RequestAction_CreateUser requestAction_CreateUser = new RequestAction_CreateUser();
             requestAction_CreateUser.UserData = User_Data;
@@ -42,27 +43,98 @@ namespace YungCging_TestHomework_MVC.Controllers
                 return (string.Format("伺服器訊息：{0}", ex.Message));
             }
         }
-        // GET api/<controller>/5
-        public string Get(string Account, string Password, string Name, int Age)
+        [HttpGet]
+        public string Delete(string Account)
         {
-            return string.Format("{0} {1} {2} {3}",Account,Password,Name,Age.ToString());
+            SetServerConn();
+            DataSet_User_CRUD User_Data = new DataSet_User_CRUD()
+            {
+                Account = "YC",
+                Password = "A123456",
+                Name = "Bboy_Yc",
+                Age = "18"
+            };
+            RequestAction_DeleteUser requestAction_DeleteUser = new RequestAction_DeleteUser();
+            requestAction_DeleteUser.UserData = User_Data;
+            try
+            {
+                DataSet_ExcuteResult result = Client_Controller.getInstance().Request_Action(requestAction_DeleteUser);
+                if (result.Success) { result = Client_Controller.getInstance().Receive_ResponseRsult(); }
+
+                return (string.Format("伺服器訊息：{0}", result.FeedBackMessage));
+            }
+            catch (Exception ex)
+            {
+                return (string.Format("伺服器訊息：{0}", ex.Message));
+            }
+        }
+        [HttpGet]
+        public string Update(string Account)
+        {
+            SetServerConn();
+            DataSet_User_CRUD User_Data = new DataSet_User_CRUD()
+            {
+                Account = "YC",
+                Password = "A123456",
+                Name = "Bboy_Yc",
+                Age = "18"
+            };
+            RequestAction_UpdateUser requestAction_UpdateUser = new RequestAction_UpdateUser();
+            requestAction_UpdateUser.UserData = User_Data;
+            try
+            {
+                DataSet_ExcuteResult result = Client_Controller.getInstance().Request_Action(requestAction_UpdateUser);
+                if (result.Success) { result = Client_Controller.getInstance().Receive_ResponseRsult(); }
+
+                return (string.Format("伺服器訊息：{0}", result.FeedBackMessage));
+            }
+            catch (Exception ex)
+            {
+                return (string.Format("伺服器訊息：{0}", ex.Message));
+            }
+        }
+        [HttpGet]
+        public string Read(string Account)
+        {
+            SetServerConn();
+            DataSet_User_CRUD User_Data = new DataSet_User_CRUD()
+            {
+                Account = "YC",
+            };
+            RequestAction_ReadUser requestAction_ReadUser = new RequestAction_ReadUser();
+            requestAction_ReadUser.UserData = User_Data;
+            try
+            {
+                DataSet_ExcuteResult result = Client_Controller.getInstance().Request_Action(requestAction_ReadUser);
+                if (result.Success) { result = Client_Controller.getInstance().Receive_ResponseRsult(); }
+
+                return (string.Format("伺服器訊息：{0}", result.FeedBackMessage));
+            }
+            catch (Exception ex)
+            {
+                return (string.Format("伺服器訊息：{0}", ex.Message));
+            }
         }
 
-        // POST api/<controller>
-        public void Post([FromBody] string value)
+        [HttpGet]
+        public string TestAdd(DataSet_User_CRUD User_Data)
         {
-        }
+            SetServerConn();
 
-        // PUT api/<controller>/5
-        public void Put(int id, [FromBody] string value)
-        {
-        }
+            RequestAction_CreateUser requestAction_CreateUser = new RequestAction_CreateUser();
+            requestAction_CreateUser.UserData = User_Data;
+            try
+            {
+                DataSet_ExcuteResult result = Client_Controller.getInstance().Request_Action(requestAction_CreateUser);
+                if (result.Success) { result = Client_Controller.getInstance().Receive_ResponseRsult(); }
 
-        // DELETE api/<controller>/5
-        public void Delete(int id)
-        {
+                return (string.Format("伺服器訊息：{0}", result.FeedBackMessage));
+            }
+            catch (Exception ex)
+            {
+                return (string.Format("伺服器訊息：{0}", ex.Message));
+            }
         }
-
 
         #region SetServerConn
         public string SetServerConn()
@@ -71,6 +143,7 @@ namespace YungCging_TestHomework_MVC.Controllers
             /// 需再寫防呆
             try
             {
+                /// 設定伺服器
                 if (Client_Controller.getInstance().SetConnectObject("127.0.0.1", 5050).Success)
                 {
                     return(string.Format("伺服器訊息：{0}", "已成功連入伺服器"));
