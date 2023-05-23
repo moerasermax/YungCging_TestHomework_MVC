@@ -42,25 +42,40 @@ namespace YungCging_TestHomework_MVC.Controllers
 
         public ActionResult YCAction_Post() 
         {
-            string url = HttpContext.Request.Url.Host;
+            string hostname = HttpContext.Request.Url.Host;
+            string port = HttpContext.Request.Url.Port.ToString();
 
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+            string API_CreateUser_URL = string.Format("http://{0}:{1}/api/User/Create", hostname,port);
+
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(API_CreateUser_URL);
             request.Method = "POST";
             request.ContentType = "application/json";
-            DataSet_User_CRUD  postData = new DataSet_User_CRUD() 
+
+
+
+            DataSet_User_CRUD postData = new DataSet_User_CRUD()
             {
                 Account = "YC",
-                Password ="123",
-                Name ="Bboy",
+                Password = "123",
+                Name = "Bboy",
                 Age = "18"
             };
 
             string postBody = JsonConvert.SerializeObject(postData);//將匿名物件序列化為json字串
             byte[] byteArray = Encoding.UTF8.GetBytes(postBody);//要發送的字串轉為byte[]
 
+            using (Stream reqStream = request.GetRequestStream())
+            {
+                reqStream.Write(byteArray, 0, byteArray.Length);
+            }//end using
+
+
+
 
             //發出Request
             string responseStr = "";
+            HttpWebResponse response1 = (HttpWebResponse)request.GetResponse();
+
             using (WebResponse response = request.GetResponse())
             {
 

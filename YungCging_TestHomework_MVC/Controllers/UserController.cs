@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -18,31 +19,63 @@ namespace YungCging_TestHomework_MVC.Controllers
             return new string[] { "value1", "value2" };
         }
 
-        [HttpGet]
-        public string Add(string Account)
+        //[HttpGet]
+        //public string Add(string Account)
+        //{
+        //    SetServerConn();
+        //    DataSet_User_CRUD User_Data = new DataSet_User_CRUD()
+        //    {
+        //        Account = "YC",
+        //        Password = "A123456",
+        //        Name = "Bboy_Yc",
+        //        Age = "26"
+        //    };
+        //    RequestAction_CreateUser requestAction_CreateUser = new RequestAction_CreateUser();
+        //    requestAction_CreateUser.UserData = User_Data;
+        //    try
+        //    {
+        //        DataSet_ExcuteResult result = Client_Controller.getInstance().Request_Action(requestAction_CreateUser);
+        //        if (result.Success) { result = Client_Controller.getInstance().Receive_ResponseRsult(); }
+
+        //        return(string.Format("伺服器訊息：{0}", result.FeedBackMessage));
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return (string.Format("伺服器訊息：{0}", ex.Message));
+        //    }
+        //}
+        [HttpPost]
+        public string Create([FromBody] object request)
         {
+            ///解析請求資料
+            string Request_Data = request.ToString().Replace("\r\n","");
+            DataSet_User_CRUD User_Data = JsonConvert.DeserializeObject<DataSet_User_CRUD>(Request_Data);
+
+            ///建立連線
             SetServerConn();
-            DataSet_User_CRUD User_Data = new DataSet_User_CRUD()
+
+            ///建立抽象實作
+            RequestAction_CreateUser requestAction_CreateUser = new RequestAction_CreateUser()
             {
-                Account = "YC",
-                Password = "A123456",
-                Name = "Bboy_Yc",
-                Age = "26"
+                UserData = User_Data
             };
-            RequestAction_CreateUser requestAction_CreateUser = new RequestAction_CreateUser();
-            requestAction_CreateUser.UserData = User_Data;
+
             try
             {
+                ///請反向代理-的後端伺服器進行動作
                 DataSet_ExcuteResult result = Client_Controller.getInstance().Request_Action(requestAction_CreateUser);
                 if (result.Success) { result = Client_Controller.getInstance().Receive_ResponseRsult(); }
 
-                return(string.Format("伺服器訊息：{0}", result.FeedBackMessage));
+                return (string.Format("伺服器訊息：{0}", result.FeedBackMessage));
             }
             catch (Exception ex)
             {
                 return (string.Format("伺服器訊息：{0}", ex.Message));
             }
         }
+
+
+
         [HttpGet]
         public string Delete(string Account)
         {
