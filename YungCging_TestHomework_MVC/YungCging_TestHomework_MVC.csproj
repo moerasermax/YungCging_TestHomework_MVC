@@ -181,10 +181,7 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\YcAction.cshtml" />
-    <Content Include="Views\Home\YCAction_Create.cshtml" />
-    <Content Include="Views\Home\YCAction_Delete.cshtml" />
-    <Content Include="Views\Home\YCAction_Update.cshtml" />
-    <Content Include="Views\Home\YCAction_Read.cshtml" />
+    <Content Include="Views\Home\YCAction_Controller.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

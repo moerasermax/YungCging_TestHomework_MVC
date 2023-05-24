@@ -38,53 +38,69 @@ namespace YungCging_TestHomework_MVC.Controllers
         {
             return View(User_Data);
         }
+
         [HttpPost]
-        public ActionResult YCAction_Create(DataSet_UserData User_Data) 
+        public ActionResult YCAction_Controller(DataSet_UserData User_Data, string submit)
         {
-            
             DataSet_User_CRUD postData = new DataSet_User_CRUD()
             {
-                Account = "YC",
-                Password = "123",
-                Name = "Bboy",
-                Age = "18"
+                Account = User_Data.Account,
+                Password = User_Data.Password,
+                Name = User_Data.Name,
+                Age = User_Data.Age
             };
+            string result = "未處理";
+            switch ((Action_Flow)Enum.Parse(typeof(Action_Flow),submit))
+            {
+                case Action_Flow.CreateUser:
+                     result = YCAction_Create(postData);
+                    break;
+                case Action_Flow.ReadUser:
+                    result = YCAction_Read(postData);
+                    break;
+                case Action_Flow.UpdateUser:
+                    result = YCAction_Update(postData);
+                    break;
+                case Action_Flow.DeleteUser:
+                    result = YCAction_Delete(postData);
+                    break;
+                default:
+                    break;
+            }
+            ViewBag.Message = result;
+            return View();
+        }
+
+
+        public string YCAction_Create(DataSet_User_CRUD postData)
+        {
             DataSet_ExcuteResult result = Query_API.getInstance().Excute("POST", "Create", postData, HttpContext.Request);
-            ViewBag.Message = result.FeedBackMessage;
-            return View();
+            return result.FeedBackMessage;
         }
-        public ActionResult YCAction_Delete()
+        public string YCAction_Delete(DataSet_User_CRUD postData)
         {
-            DataSet_User_CRUD postData = new DataSet_User_CRUD()
-            {
-                Account = "YC",
-            };
+
             DataSet_ExcuteResult result = Query_API.getInstance().Excute("POST", "Delete", postData, HttpContext.Request);
-            ViewBag.Message = result.FeedBackMessage;
-            return View();
+            return result.FeedBackMessage;
         }
-        public ActionResult YCAction_Update()
+        public string YCAction_Update(DataSet_User_CRUD postData)
         {
-            DataSet_User_CRUD postData = new DataSet_User_CRUD()
-            {
-                Account = "YC",
-                Password = "123",
-                Name = "Bboy",
-                Age = "26"
-            };
             DataSet_ExcuteResult result = Query_API.getInstance().Excute("POST", "Update", postData, HttpContext.Request);
-            ViewBag.Message = result.FeedBackMessage;
-            return View();
+            return result.FeedBackMessage;
         }
-        public ActionResult YCAction_Read()
+        public string YCAction_Read(DataSet_User_CRUD postData)
         {
-            DataSet_User_CRUD postData = new DataSet_User_CRUD()
-            {
-                Account = "YC",
-            };
             DataSet_ExcuteResult result = Query_API.getInstance().Excute("POST", "Read", postData, HttpContext.Request);
-            ViewBag.Message = result.FeedBackMessage;
-            return View();
+            return result.FeedBackMessage;
+        }
+
+
+        enum Action_Flow
+        {
+            CreateUser,
+            ReadUser,
+            UpdateUser,
+            DeleteUser
         }
     }
 }
