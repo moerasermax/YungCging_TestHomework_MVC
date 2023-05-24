@@ -140,6 +140,7 @@
     </Compile>
     <Compile Include="Interface\I_Query_API.cs" />
     <Compile Include="Models\Query_API.cs" />
+    <Compile Include="Models\DataSet_UserDataCRUD.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

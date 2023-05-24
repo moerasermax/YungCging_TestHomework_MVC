@@ -34,13 +34,14 @@ namespace YungCging_TestHomework_MVC.Controllers
             return View();
         }
 
-        public ActionResult YCAction()
+        public ActionResult YCAction(DataSet_UserData User_Data)
         {
-            return View();
+            return View(User_Data);
         }
-
-        public ActionResult YCAction_Create() 
+        [HttpPost]
+        public ActionResult YCAction_Create(DataSet_UserData User_Data) 
         {
+            
             DataSet_User_CRUD postData = new DataSet_User_CRUD()
             {
                 Account = "YC",
